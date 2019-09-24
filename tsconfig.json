@@ -4,6 +4,7 @@
         "module": "commonjs",
         "declaration": true,
         "sourceMap": true,
+        "allowJs": false,
         "outDir": "./lib",
         "rootDir": "./src",
         "strict": true,

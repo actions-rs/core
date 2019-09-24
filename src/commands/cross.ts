@@ -13,13 +13,22 @@ export class Cross {
         this.path = path;
     }
 
-    public async get(): Promise<Cross> {
+    public static async getOrInstall(): Promise<Cross> {
+        try {
+            return await Cross.get();
+        } catch (error) {
+            core.debug(`Unable to find "cross" executable, installing it now. Reason: ${error}`);
+            return await Cross.install();
+        }
+    }
+
+    public static async get(): Promise<Cross> {
         const path = await io.which('cross', true);
 
         return new Cross(path);
     }
 
-    public async install(version?: string): Promise<Cross> {
+    public static async install(version?: string): Promise<Cross> {
         const cargo = await Cargo.get();
 
         // Somewhat new Rust is required to compile `cross`
@@ -50,8 +59,6 @@ export class Cross {
 
             // Assuming that `cross` executable is in `$PATH` already
             return new Cross('cross');
-        } catch (error) {
-            throw error;
         } finally {
             // It is important to chdir back!
             process.chdir(cwd);
