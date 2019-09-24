@@ -4,6 +4,7 @@
     "private": false,
     "description": "Core functionality for the @actions-rs repos",
     "main": "lib/core.js",
+    "types": "lib/core.d.ts",
     "directories": {
         "lib": "lib",
         "test": "__tests__"
