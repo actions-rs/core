@@ -1,6 +1,6 @@
 {
     "name": "@actions-rs/core",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "private": false,
     "description": "Core functionality for the @actions-rs repos",
     "main": "lib/core.js",
@@ -33,7 +33,7 @@
         "@actions/core": "^1.1.1",
         "@actions/exec": "^1.0.1",
         "@actions/io": "^1.0.1",
-        "download": "^7.1.0"
+        "@actions/tool-cache": "^1.1.1"
     },
     "devDependencies": {
         "@types/jest": "^24.0.13",

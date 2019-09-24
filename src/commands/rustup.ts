@@ -1,12 +1,10 @@
-const os = require('os');
-const fs = require('fs');
 const path = require('path');
 const process = require('process');
 
 import * as io from '@actions/io';
 import * as core from '@actions/core';
 import * as exec from '@actions/exec';
-import * as download from 'download';
+import * as tc from '@actions/tool-cache';
 
 export interface ToolchainOptions {
     default?: boolean,
@@ -37,12 +35,12 @@ export class RustUp {
         switch (process.platform) {
             case 'darwin':
             case 'linux':  // Should be installed already, but just in case
-                const rustupSh = await this.downloadRustInit('https://sh.rustup.rs', 'rustup-init.sh');
+                const rustupSh = await tc.downloadTool('https://sh.rustup.rs');
                 await exec.exec(rustupSh, args);
                 break;
 
             case 'win32':
-                const rustupExe = await this.downloadRustInit('http://win.rustup.rs', 'rustup-init.exe');
+                const rustupExe = await tc.downloadTool('http://win.rustup.rs');
                 await exec.exec(rustupExe, args);
                 break;
 
@@ -86,26 +84,5 @@ export class RustUp {
 
     public async call(args: string[], options?: {}): Promise<number> {
         return await exec.exec(this.path, args, options);
-    }
-
-    private downloadRustInit(url: string, outputName: string): Promise<string> {
-        const absPath = path.join(os.tmpdir(), outputName);
-
-        return new Promise((resolve, reject) => {
-            let req = download(url);
-            let output = fs.createWriteStream(absPath, {
-                mode: 0o755
-            });
-
-            req.pipe(output);
-            req.on('end', () => {
-                output.close(resolve);
-            });
-            req.on('error', reject);
-            output.on('error', reject);
-        })
-        .then(() => {
-            return absPath;
-        });
     }
 }
