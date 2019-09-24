@@ -1,9 +1,9 @@
 {
     "name": "@actions-rs/core",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "private": false,
     "description": "Core functionality for the @actions-rs repos",
-    "main": "lib/main.js",
+    "main": "lib/core.js",
     "directories": {
         "lib": "lib",
         "test": "__tests__"
