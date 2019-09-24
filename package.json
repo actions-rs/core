@@ -1,0 +1,48 @@
+{
+    "name": "@actions-rs/core",
+    "version": "0.0.1",
+    "private": false,
+    "description": "Core functionality for the @actions-rs repos",
+    "main": "lib/main.js",
+    "directories": {
+        "lib": "lib",
+        "test": "__tests__"
+    },
+    "files": [
+        "lib"
+    ],
+    "scripts": {
+        "build": "tsc -p .",
+        "watch": "nodemon --watch 'src/**/*.ts' --exec npm run-script build",
+        "refresh": "rm -rf ./lib/* && npm run-script build",
+        "test": "jest"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/actions-rs/core.git"
+    },
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com/"
+    },
+    "author": "actions-rs",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/actions-rs/core/issues"
+    },
+    "dependencies": {
+        "@actions/core": "^1.1.1",
+        "@actions/exec": "^1.0.1",
+        "@actions/io": "^1.0.1",
+        "download": "^7.1.0"
+    },
+    "devDependencies": {
+        "@types/jest": "^24.0.13",
+        "@types/node": "^12.7.5",
+        "nodemon": "^1.19.2",
+        "ts-node": "^8.4.1",
+        "jest": "^24.9.0",
+        "jest-circus": "^24.9.0",
+        "ts-jest": "^24.0.2",
+        "typescript": "^3.5.1"
+    }
+}
