@@ -17,7 +17,7 @@ export class Cross {
         try {
             return await Cross.get();
         } catch (error) {
-            core.debug(`Unable to find "cross" executable, installing it now. Reason: ${error}`);
+            core.debug(`${error}`);
             return await Cross.install();
         }
     }

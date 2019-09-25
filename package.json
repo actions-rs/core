@@ -1,6 +1,6 @@
 {
     "name": "@actions-rs/core",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "private": false,
     "description": "Core functionality for the @actions-rs repos",
     "main": "lib/core.js",
@@ -16,7 +16,7 @@
         "build": "tsc -p .",
         "watch": "nodemon --watch 'src/**/*.ts' --exec npm run-script build",
         "refresh": "rm -rf ./lib/* && npm run-script build",
-        "test": "jest"
+        "test": "jest --passWithNoTests"
     },
     "repository": {
         "type": "git",
