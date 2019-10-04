@@ -1,23 +1,30 @@
 {
     "compilerOptions": {
-        "target": "es6",
+        "allowJs": true,
+        "checkJs": true,
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
         "module": "commonjs",
-        "lib": ["es6"],
-        "declaration": true,
-        "sourceMap": true,
-        "allowJs": false,
-        "outDir": "./lib",
-        "rootDir": "./src",
-        "strict": true,
+        "moduleResolution": "node",
+        "newLine": "LF",
+        "noEmitOnError": true,
+        "noErrorTruncation": true,
+        "noFallthroughCasesInSwitch": true,
         "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
-        "noImplicitReturns": false,
-        "esModuleInterop": true
+        "outDir": "dist",
+        "pretty": true,
+        "removeComments": true,
+        "resolveJsonModule": true,
+        "rootDir": "src",
+        "strict": true,
+        "suppressImplicitAnyIndexErrors": false,
+        "target": "es2018"
     },
-    "exclude": [
-        "lib",
-        "node_modules",
-        "**/*.test.ts"
+    "include": [
+        "src"
     ]
 }
