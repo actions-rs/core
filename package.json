@@ -11,6 +11,7 @@
         "format": "prettier --write 'src/**/*.{js,ts,tsx}'",
         "lint": "tsc --noEmit && eslint 'src/**/*.{js,ts,tsx}'",
         "refresh": "rm -rf ./lib/* && npm run build",
+        "test": "jest --passWithNoTests",
         "watch": "tsc -p . -w"
     },
     "repository": {
@@ -33,6 +34,8 @@
         "eslint": "^6.5.1",
         "eslint-config-prettier": "^6.3.0",
         "eslint-plugin-prettier": "^3.1.1",
+        "jest": "^24.9.0",
+        "jest-circus": "^24.9.0",
         "prettier": "^1.18.2",
         "ts-node": "^8.4.1",
         "typescript": "^3.5.1"
