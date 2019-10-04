@@ -1,10 +1,9 @@
-const os = require('os');
-
+import * as os from 'os';
 import * as io from '@actions/io';
 import * as core from '@actions/core';
 import * as exec from '@actions/exec';
 
-import {Cargo} from './cargo';
+import { Cargo } from './cargo';
 
 export class Cross {
     private readonly path: string;
@@ -48,7 +47,7 @@ export class Cross {
         try {
             core.startGroup('Installing cross');
 
-            let args = ['install'];
+            const args = ['install'];
             if (version && version != 'latest') {
                 args.push('--version');
                 args.push(version);

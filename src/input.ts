@@ -10,15 +10,18 @@ import * as core from '@actions/core';
  **/
 export function getInput(name: string, options?: core.InputOptions): string {
     const inputFullName = name.replace(/-/g, '_');
-    let value = core.getInput(inputFullName, options);
+    const value = core.getInput(inputFullName, options);
     if (value.length > 0) {
-        return value
+        return value;
     }
 
     return core.getInput(name, options);
 }
 
-export function getInputBool(name: string, options?: core.InputOptions): boolean {
+export function getInputBool(
+    name: string,
+    options?: core.InputOptions,
+): boolean {
     const value = getInput(name, options);
     if (value && (value === 'true' || value === '1')) {
         return true;
