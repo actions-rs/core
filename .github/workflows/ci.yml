@@ -1,18 +1,11 @@
-name: Continuous integration
-
 on: [pull_request, push]
-
 jobs:
-  check_pr:
+  # The main CI workflow; installs dependencies, runs eslint, prettier, and jest.
+  main:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-
-    - name: "npm ci"
-      run: npm ci
-
-    - name: "npm run build"
-      run: npm run build
-
-    - name: "npm run test"
-      run: npm run test
+    - run: npm ci
+    - run: npm run lint
+    - run: npm run build
+    - run: npm run test

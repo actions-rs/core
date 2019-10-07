@@ -1,32 +1,23 @@
 {
+    "private": false,
     "name": "@actions-rs/core",
     "version": "0.0.4",
-    "private": false,
+    "author": "actions-rs",
+    "license": "MIT",
     "description": "Core functionality for the @actions-rs repos",
     "main": "lib/core.js",
-    "types": "lib/core.d.ts",
-    "directories": {
-        "lib": "lib",
-        "test": "__tests__"
-    },
-    "files": [
-        "lib"
-    ],
     "scripts": {
         "build": "tsc -p .",
-        "watch": "nodemon --watch 'src/**/*.ts' --exec npm run-script build",
-        "refresh": "rm -rf ./lib/* && npm run-script build",
-        "test": "jest --passWithNoTests"
+        "format": "prettier --write 'src/**/*.{js,ts,tsx}'",
+        "lint": "tsc --noEmit && eslint 'src/**/*.{js,ts,tsx}'",
+        "refresh": "rm -rf ./lib/* && npm run build",
+        "test": "jest --passWithNoTests",
+        "watch": "tsc -p . -w"
     },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/actions-rs/core.git"
     },
-    "publishConfig": {
-        "registry": "https://npm.pkg.github.com/"
-    },
-    "author": "actions-rs",
-    "license": "MIT",
     "bugs": {
         "url": "https://github.com/actions-rs/core/issues"
     },
@@ -38,11 +29,15 @@
     "devDependencies": {
         "@types/jest": "^24.0.13",
         "@types/node": "^12.7.5",
-        "nodemon": "^1.19.2",
-        "ts-node": "^8.4.1",
+        "@typescript-eslint/eslint-plugin": "^2.3.2",
+        "@typescript-eslint/parser": "^2.3.2",
+        "eslint": "^6.5.1",
+        "eslint-config-prettier": "^6.3.0",
+        "eslint-plugin-prettier": "^3.1.1",
         "jest": "^24.9.0",
         "jest-circus": "^24.9.0",
-        "ts-jest": "^24.0.2",
+        "prettier": "^1.18.2",
+        "ts-node": "^8.4.1",
         "typescript": "^3.5.1"
     }
 }
