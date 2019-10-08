@@ -10,7 +10,8 @@
         "noEmitOnError": true,
         "noErrorTruncation": true,
         "noFallthroughCasesInSwitch": true,
-        "noImplicitAny": true,
+        // TODO: enabling it breaks the `@actions/github` package somehow
+        "noImplicitAny": false,
         "noImplicitReturns": true,
         "noImplicitThis": true,
         "noUnusedLocals": true,

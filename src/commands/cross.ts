@@ -45,19 +45,8 @@ export class Cross {
         process.chdir(os.tmpdir());
 
         try {
-            core.startGroup('Installing cross');
-
-            const args = ['install'];
-            if (version && version != 'latest') {
-                args.push('--version');
-                args.push(version);
-            }
-            args.push('cross');
-
-            await cargo.call(args);
-
-            // Assuming that `cross` executable is in `$PATH` already
-            return new Cross('cross');
+            const crossPath = await cargo.installCached('cross', version);
+            return new Cross(crossPath);
         } finally {
             // It is important to chdir back!
             process.chdir(cwd);
