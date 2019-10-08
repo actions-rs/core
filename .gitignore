@@ -1,5 +1,4 @@
-# TODO: TEMPORARY
-# dist/*
+dist/*
 __tests__/runner/*
 
 # Rest pulled from https://github.com/github/gitignore/blob/master/Node.gitignore
