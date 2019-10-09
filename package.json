@@ -1,7 +1,7 @@
 {
     "private": false,
     "name": "@actions-rs/core",
-    "version": "0.0.5-alpha.1",
+    "version": "0.0.5-alpha.2",
     "author": "actions-rs",
     "license": "MIT",
     "description": "Core functionality for the @actions-rs repos",
