@@ -5,12 +5,14 @@
     "author": "actions-rs",
     "license": "MIT",
     "description": "Core functionality for the @actions-rs repos",
-    "main": "dist/core.js",
+    "files": [
+        "dist/**/*.js"
+    ],
     "scripts": {
         "build": "tsc -p .",
         "format": "prettier --write 'src/**/*.{js,ts,tsx}'",
         "lint": "tsc --noEmit && eslint 'src/**/*.{js,ts,tsx}'",
-        "refresh": "rm -rf ./lib/* && npm run build",
+        "refresh": "rm -rf ./dist/* && npm run build",
         "test": "jest --passWithNoTests",
         "watch": "tsc -p . -w"
     },
