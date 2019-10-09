@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
-        "allowJs": true,
-        "checkJs": true,
+        "allowJs": false,
+        "checkJs": false,
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
         "module": "commonjs",
@@ -10,7 +10,8 @@
         "noEmitOnError": true,
         "noErrorTruncation": true,
         "noFallthroughCasesInSwitch": true,
-        "noImplicitAny": true,
+        // TODO: enabling it breaks the `@actions/github` package somehow
+        "noImplicitAny": false,
         "noImplicitReturns": true,
         "noImplicitThis": true,
         "noUnusedLocals": true,
@@ -22,7 +23,9 @@
         "rootDir": "src",
         "strict": true,
         "suppressImplicitAnyIndexErrors": false,
-        "target": "es2018"
+        "target": "es2018",
+        "declaration": true,
+        "sourceMap": true
     },
     "include": [
         "src"
