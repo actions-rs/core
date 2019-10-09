@@ -1,10 +1,11 @@
 {
     "private": false,
     "name": "@actions-rs/core",
-    "version": "0.0.5-alpha.2",
+    "version": "0.0.5-alpha.3",
     "author": "actions-rs",
     "license": "MIT",
     "description": "Core functionality for the @actions-rs repos",
+    "main": "dist/core.js",
     "files": [
         "dist/**/*.js"
     ],
