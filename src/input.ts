@@ -29,3 +29,15 @@ export function getInputBool(
         return false;
     }
 }
+
+export function getInputList(
+    name: string,
+    options?: core.InputOptions,
+): string[] {
+    const raw = getInput(name, options);
+
+    return raw
+        .split(',')
+        .map((item: string) => item.trim())
+        .filter((item: string) => item.length > 0);
+}
