@@ -80,8 +80,10 @@ export class RustUp {
     ): Promise<number> {
         const args = ['toolchain', 'install', name];
         if (options && options.components && options.components.length > 0) {
-            args.push('--component');
-            args.push(options.components.join(' ')); // TODO?
+            for (const component of options.components) {
+                args.push('--component');
+                args.push(component);
+            }
         }
         await this.call(args);
 
