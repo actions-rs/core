@@ -16,7 +16,7 @@ export interface ToolchainOptions {
     default?: boolean;
     override?: boolean;
     components?: string[];
-    noSelfUpdate?: boolean,
+    noSelfUpdate?: boolean;
 }
 
 export class RustUp {
