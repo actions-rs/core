@@ -16,6 +16,7 @@ export interface ToolchainOptions {
     default?: boolean;
     override?: boolean;
     components?: string[];
+    noSelfUpdate?: boolean,
 }
 
 export class RustUp {
@@ -84,6 +85,9 @@ export class RustUp {
                 args.push('--component');
                 args.push(component);
             }
+        }
+        if (options && options.noSelfUpdate) {
+            args.push('--no-self-update');
         }
         await this.call(args);
 
