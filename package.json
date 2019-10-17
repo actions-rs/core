@@ -1,7 +1,7 @@
 {
     "private": false,
     "name": "@actions-rs/core",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "author": "actions-rs",
     "license": "MIT",
     "description": "Core functionality for the @actions-rs repos",
@@ -31,7 +31,8 @@
         "@actions/io": "^1.0.1",
         "@actions/tool-cache": "^1.0.1",
         "@octokit/graphql": "^2.0.1",
-        "@octokit/rest": "^16.33.1"
+        "@octokit/rest": "^16.33.1",
+        "semver": "^6.3.0"
     },
     "devDependencies": {
         "@types/jest": "^24.0.13",

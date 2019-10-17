@@ -1,15 +1,22 @@
 import * as path from 'path';
 import * as process from 'process';
 
+import * as semver from 'semver';
 import * as io from '@actions/io';
 import * as core from '@actions/core';
 import * as exec from '@actions/exec';
 import * as tc from '@actions/tool-cache';
 
+const PROFILES_MIN_VERSION = '1.20.1';
+const COMPONENTS_MIN_VERSION = '1.20.1';
+
+type Profile = 'minimal' | 'default' | 'full';
+
 export interface ToolchainOptions {
     default?: boolean;
     override?: boolean;
-    profile?: 'minimal' | 'default' | 'full';
+    components?: string[];
+    noSelfUpdate?: boolean;
 }
 
 export class RustUp {
@@ -72,7 +79,17 @@ export class RustUp {
         name: string,
         options?: ToolchainOptions,
     ): Promise<number> {
-        await this.call(['toolchain', 'install', name]);
+        const args = ['toolchain', 'install', name];
+        if (options && options.components && options.components.length > 0) {
+            for (const component of options.components) {
+                args.push('--component');
+                args.push(component);
+            }
+        }
+        if (options && options.noSelfUpdate) {
+            args.push('--no-self-update');
+        }
+        await this.call(args);
 
         if (options && options.default) {
             await this.call(['default', name]);
@@ -81,8 +98,6 @@ export class RustUp {
         if (options && options.override) {
             await this.call(['override', 'set', name]);
         }
-
-        // TODO: Support profiles
 
         // TODO: Is there smth like Rust' `return Ok(())`?
         return 0;
@@ -103,14 +118,7 @@ export class RustUp {
     }
 
     public async activeToolchain(): Promise<string> {
-        let stdout = '';
-        await this.call(['show', 'active-toolchain'], {
-            listeners: {
-                stdout: (buffer: Buffer) => {
-                    stdout = buffer.toString().trim();
-                },
-            },
-        });
+        const stdout = await this.callStdout(['show', 'active-toolchain']);
 
         if (stdout) {
             return stdout.split(' ', 2)[0];
@@ -119,16 +127,48 @@ export class RustUp {
         }
     }
 
+    public async supportProfiles(): Promise<boolean> {
+        const version = await this.version();
+        const supports = semver.gte(version, PROFILES_MIN_VERSION);
+        if (supports) {
+            core.info(`Installed rustup ${version} support profiles`);
+        } else {
+            core.info(`Installed rustup ${version} does not support profiles, \
+expected at least ${PROFILES_MIN_VERSION}`);
+        }
+        return supports;
+    }
+
+    public async supportComponents(): Promise<boolean> {
+        const version = await this.version();
+        const supports = semver.gte(version, COMPONENTS_MIN_VERSION);
+        if (supports) {
+            core.info(`Installed rustup ${version} support components`);
+        } else {
+            core.info(`Installed rustup ${version} does not support components, \
+expected at least ${PROFILES_MIN_VERSION}`);
+        }
+        return supports;
+    }
+
+    /**
+     * Executes `rustup set profile ${name}`
+     *
+     * Note that it includes the check if currently installed rustup support profiles at all
+     */
+    public async setProfile(name: Profile): Promise<number> {
+        return await this.call(['set', 'profile', name]);
+    }
+
+    public async version(): Promise<string> {
+        const stdout = await this.callStdout(['-V']);
+
+        return stdout.split(' ')[1];
+    }
+
     // rustup which `program`
     public async which(program: string): Promise<string> {
-        let stdout = '';
-        await this.call(['which', program], {
-            listeners: {
-                stdout: (buffer: Buffer) => {
-                    stdout = buffer.toString().trim();
-                },
-            },
-        });
+        const stdout = await this.callStdout(['which', program]);
 
         if (stdout) {
             return stdout;
@@ -137,7 +177,29 @@ export class RustUp {
         }
     }
 
+    public async selfUpdate(): Promise<number> {
+        return await this.call(['self', 'update']);
+    }
+
     public async call(args: string[], options?: {}): Promise<number> {
         return await exec.exec(this.path, args, options);
+    }
+
+    /**
+     * Call the `rustup` and return an stdout
+     */
+    async callStdout(args: string[], options?: {}): Promise<string> {
+        let stdout = '';
+        const resOptions = Object.assign({}, options, {
+            listeners: {
+                stdout: (buffer: Buffer) => {
+                    stdout += buffer.toString();
+                },
+            },
+        });
+
+        await this.call(args, resOptions);
+
+        return stdout;
     }
 }

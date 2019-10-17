@@ -15,11 +15,11 @@ export class Cargo {
 
             return new Cargo(path);
         } catch (error) {
-            core.warning(
+            core.error(
                 'cargo is not installed by default for some virtual environments, \
 see https://help.github.com/en/articles/software-in-virtual-environments-for-github-actions',
             );
-            core.warning(
+            core.error(
                 'To install it, use this action: https://github.com/actions-rs/toolchain',
             );
 
