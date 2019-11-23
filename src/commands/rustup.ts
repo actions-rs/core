@@ -71,7 +71,7 @@ export class RustUp {
             }
 
             case 'win32': {
-                const rustupExe = await tc.downloadTool('http://win.rustup.rs');
+                const rustupExe = await tc.downloadTool('https://win.rustup.rs');
                 await exec.exec(rustupExe, args);
                 break;
             }
