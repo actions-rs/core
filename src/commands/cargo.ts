@@ -30,7 +30,8 @@ see https://help.github.com/en/articles/software-in-virtual-environments-for-git
     /**
      * Executes `cargo install ${program}`.
      *
-     * TODO: We can utilize the `@actions/tool-cache` and cache installed binary.
+     * TODO: Caching ability implementation is blocked,
+     * see https://github.com/actions-rs/core/issues/31
      * As for now it acts just like an stub and simply installs the program
      * on each call.
      *
