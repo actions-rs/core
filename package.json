@@ -7,7 +7,9 @@
     "description": "Core functionality for the @actions-rs repos",
     "main": "dist/core.js",
     "files": [
-        "dist/**/*.js"
+        "dist/**/*.js",
+        "dist/**/*.js.map",
+        "dist/**/*.d.ts"
     ],
     "scripts": {
         "build": "tsc -p .",
