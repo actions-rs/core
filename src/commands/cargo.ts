@@ -1,6 +1,7 @@
 import * as io from '@actions/io';
 import * as core from '@actions/core';
 import * as exec from '@actions/exec';
+import Installers from './cargo/installer';
 
 export class Cargo {
     private readonly path: string;
@@ -52,16 +53,9 @@ see https://help.github.com/en/articles/software-in-virtual-environments-for-git
         program: string,
         version?: string,
     ): Promise<string> {
-        const args = ['install'];
-        if (version && version != 'latest') {
-            args.push('--version');
-            args.push(version);
-        }
-        args.push(program);
-
         try {
             core.startGroup(`Installing "${program} = ${version || 'latest'}"`);
-            await this.call(args);
+            await Installers.get(this, program).install(version);
         } finally {
             core.endGroup();
         }
