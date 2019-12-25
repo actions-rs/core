@@ -13,10 +13,10 @@
     ],
     "scripts": {
         "build": "tsc -p .",
-        "format": "prettier --write 'src/**/*.{js,ts,tsx}'",
-        "lint": "tsc --noEmit && eslint 'src/**/*.{js,ts,tsx}'",
+        "format": "prettier --write 'src/**/*.ts' '__tests__/**/*.ts'",
+        "lint": "tsc --noEmit && eslint 'src/**/*.ts' '__tests__/**/*.ts'",
         "refresh": "rm -rf ./dist/* && npm run build",
-        "test": "jest --passWithNoTests",
+        "test": "jest -c jest.config.json",
         "watch": "tsc -p . -w"
     },
     "repository": {
@@ -48,7 +48,7 @@
         "jest": "^24.9.0",
         "jest-circus": "^24.9.0",
         "prettier": "^1.19.1",
-        "ts-node": "^8.5.4",
+        "ts-jest": "^24.2.0",
         "typescript": "^3.7.2"
     }
 }
