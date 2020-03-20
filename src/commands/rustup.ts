@@ -18,6 +18,8 @@ export interface ToolchainOptions {
     override?: boolean;
     components?: string[];
     noSelfUpdate?: boolean;
+    allowDowngrade?: boolean;
+    force?: boolean;
 }
 
 export class RustUp {
@@ -96,15 +98,28 @@ export class RustUp {
         options?: ToolchainOptions,
     ): Promise<number> {
         const args = ['toolchain', 'install', name];
-        if (options && options.components && options.components.length > 0) {
-            for (const component of options.components) {
-                args.push('--component');
-                args.push(component);
+
+        if (options) {
+            if (options.components && options.components.length > 0) {
+                for (const component of options.components) {
+                    args.push('--component');
+                    args.push(component);
+                }
+            }
+
+            if (options.noSelfUpdate) {
+                args.push('--no-self-update');
+            }
+
+            if (options.allowDowngrade) {
+                args.push('--allow-downgrade');
+            }
+
+            if (options.force) {
+                args.push('--force');
             }
         }
-        if (options && options.noSelfUpdate) {
-            args.push('--no-self-update');
-        }
+
         await this.call(args);
 
         if (options && options.default) {
