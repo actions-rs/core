@@ -223,7 +223,7 @@ expected at least ${PROFILES_MIN_VERSION}`);
         let stdout = '';
         const resOptions = Object.assign({}, options, {
             listeners: {
-                stdout: (buffer: Buffer) => {
+                stdout: (buffer: Buffer): void => {
                     stdout += buffer.toString();
                 },
             },
