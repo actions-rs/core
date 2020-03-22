@@ -26,9 +26,9 @@ class GrcovInstaller implements Installer {
             case 'darwin':
                 arch = 'osx-x86_64';
                 break;
-            case 'win32':
-                arch = 'win-x86_64';
-                break;
+            // case 'win32':
+            //     arch = 'win-x86_64';
+            //     break;
             default:
                 throw Error(`Unsupported platform: ${process.platform}`);
         }
@@ -57,7 +57,7 @@ export function config(): [string, Config] {
         {
             command: 'grcov',
             version: '0.5.6',
-            platforms: ['linux', 'darwin', 'win32'],
+            platforms: ['linux', 'darwin' /*, 'win32'*/],
             installer: new GrcovInstaller(),
         },
     ];
