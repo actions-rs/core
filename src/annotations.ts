@@ -79,18 +79,15 @@ function render(
     if (properties && Object.keys(properties).length > 0) {
         cmdStr += ' ';
         let first = true;
-        for (const key in properties) {
-            if (Object.prototype.isPrototypeOf.call(properties, key)) {
-                const val = properties[key];
-                if (val) {
-                    if (first) {
-                        first = false;
-                    } else {
-                        cmdStr += ',';
-                    }
-
-                    cmdStr += `${key}=${escapeProperty(val)}`;
+        for (const [key, value] of Object.values(properties)) {
+            if (value) {
+                if (first) {
+                    first = false;
+                } else {
+                    cmdStr += ',';
                 }
+
+                cmdStr += `${key}=${escapeProperty(value)}`;
             }
         }
     }
