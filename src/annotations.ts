@@ -79,7 +79,7 @@ function render(
     if (properties && Object.keys(properties).length > 0) {
         cmdStr += ' ';
         let first = true;
-        for (const [key, value] of Object.values(properties)) {
+        for (const [key, value] of Object.entries(properties)) {
             if (value) {
                 if (first) {
                     first = false;
