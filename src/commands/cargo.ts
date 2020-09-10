@@ -1,3 +1,4 @@
+import * as os from 'os';
 import * as io from '@actions/io';
 import * as core from '@actions/core';
 import * as exec from '@actions/exec';
@@ -68,7 +69,7 @@ see https://help.github.com/en/articles/software-in-virtual-environments-for-git
         if (version == 'latest') {
             version = await resolveVersion(program);
         }
-        const runner = ''; // TODO
+        const runner = os.platform() + '-' + os.release() + '-' + os.arch();
         const paths = [path.join(path.dirname(this.path), program)];
         const programKey = program + '-' + version + '-' + runner;
         const cacheKey = await cache.restoreCache(paths, programKey);
