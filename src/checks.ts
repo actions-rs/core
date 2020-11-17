@@ -1,5 +1,8 @@
 import * as github from '@actions/github';
 
+// `@actions/github` does not re-export `GitHub` type, thanks for nothing.
+type GitHub = any;
+
 interface Output {
     title: string;
     summary: string;
@@ -10,11 +13,11 @@ interface Output {
  * Thin wrapper around the GitHub Checks API
  */
 export class CheckReporter {
-    private readonly client: github.GitHub;
+    private readonly client: GitHub;
     private readonly checkName: string;
     private checkId: undefined | number;
 
-    constructor(client: github.GitHub, checkName: string) {
+    constructor(client: GitHub, checkName: string) {
         this.client = client;
         this.checkName = checkName;
         this.checkId = undefined;
@@ -38,7 +41,7 @@ export class CheckReporter {
         // TODO: Check for errors
 
         this.checkId = response.data.id;
-        return this.checkId;
+        return this.checkId!;
     }
 
     // TODO:
