@@ -41,13 +41,3 @@ export function getInputList(
         .map((item: string) => item.trim())
         .filter((item: string) => item.length > 0);
 }
-
-export function getInputAsArray(
-    name: string,
-    options?: core.InputOptions,
-): string[] {
-    return getInput(name, options)
-        .split('\n')
-        .map((s) => s.trim())
-        .filter((x) => x !== '');
-}

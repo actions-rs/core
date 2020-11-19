@@ -1,3 +1,4 @@
+import * as os from 'os';
 import * as io from '@actions/io';
 import * as core from '@actions/core';
 import * as exec from '@actions/exec';
@@ -45,19 +46,14 @@ see https://help.github.com/en/articles/software-in-virtual-environments-for-git
     }
 
     /**
-     * Executes `cargo install ${program}`.
+     * Executes `cargo install ${program}` or uses the cached ${program} from
+     * the GitHub Actions cache.
      *
-     * TODO: Caching ability implementation is blocked,
-     * see https://github.com/actions-rs/core/issues/31
-     * As for now it acts just like an stub and simply installs the program
-     * on each call.
+     * `version` argument could either be the actual program version or
+     * `"latest"`, which can be provided by user input.
      *
-     * `version` argument could be either actual program version or `"latest"` string,
-     * which can be provided by user input.
-     *
-     * If `version` is `undefined` or `"latest"`, this method could call the Crates.io API,
-     * fetch the latest version and search for it in cache.
-     * TODO: Actually implement this.
+     * If `version` is `undefined` or `"latest"`, this method calls the
+     * Crates.io API, fetches the latest version and search for it in the cache.
      *
      * ## Returns
      *
@@ -68,51 +64,52 @@ see https://help.github.com/en/articles/software-in-virtual-environments-for-git
     public async installCached(
         program: string,
         version?: string,
-        primaryKey?: string,
-        restoreKeys?: string[],
     ): Promise<string> {
+        version = version || (await resolveVersion(program));
         if (version == 'latest') {
             version = await resolveVersion(program);
         }
-        if (primaryKey) {
-            restoreKeys = restoreKeys || [];
-            const paths = [path.join(path.dirname(this.path), program)];
-            const programKey = program + '-' + version + '-' + primaryKey;
-            const programRestoreKeys = restoreKeys.map(
-                (key) => program + '-' + version + '-' + key,
-            );
-            const cacheKey = await cache.restoreCache(
-                paths,
-                programKey,
-                programRestoreKeys,
-            );
-            if (cacheKey) {
-                core.info(
-                    `Using cached \`${program}\` with version ${version}`,
-                );
-                return program;
-            } else {
-                const res = await this.install(program, version);
-                try {
-                    core.info(`Caching \`${program}\` with key ${programKey}`);
-                    await cache.saveCache(paths, programKey);
-                } catch (error) {
-                    if (error.name === cache.ValidationError.name) {
-                        throw error;
-                    } else if (error.name === cache.ReserveCacheError.name) {
-                        core.info(error.message);
-                    } else {
-                        core.info('[warning]' + error.message);
-                    }
-                }
-                return res;
-            }
+        const runner = os.platform() + '-' + os.release() + '-' + os.arch();
+        const paths = [path.join(path.dirname(this.path), program)];
+        const programKey = program + '-' + version + '-' + runner;
+        const cacheKey = await cache.restoreCache(paths, programKey);
+        if (cacheKey) {
+            core.info(`Using cached \`${program}\` with version ${version}`);
+            return program;
         } else {
-            return await this.install(program, version);
+            const res = await this.install(program, version);
+            try {
+                core.info(`Caching \`${program}\` with key ${programKey}`);
+                await cache.saveCache(paths, programKey);
+            } catch (error) {
+                if (error.name === cache.ValidationError.name) {
+                    throw error;
+                } else if (error.name === cache.ReserveCacheError.name) {
+                    core.info(error.message);
+                } else {
+                    core.info('[warning]' + error.message);
+                }
+            }
+            return res;
         }
     }
 
-    async install(program: string, version?: string): Promise<string> {
+    /**
+     * Executes `cargo install ${program}`.
+     *
+     * `version` argument could either be the actual program version or
+     * `"latest"`, which can be provided by user input.
+     *
+     * If `version` is `undefined` or `"latest"`, this method calls the
+     * Crates.io API, fetches the latest version and search for it in the cache.
+     *
+     * ## Returns
+     *
+     * Path to the installed program.
+     * As the $PATH should be already tuned properly at this point,
+     * returned value at the moment is simply equal to the `program` argument.
+     */
+    public async install(program: string, version?: string): Promise<string> {
         const args = ['install'];
         if (version && version != 'latest') {
             args.push('--version');
