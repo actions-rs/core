@@ -8,8 +8,8 @@ import * as core from '@actions/core';
 import * as exec from '@actions/exec';
 import * as tc from '@actions/tool-cache';
 
-const PROFILES_MIN_VERSION = '1.20.1';
-const COMPONENTS_MIN_VERSION = '1.20.1';
+const PROFILES_MIN_VERSION = '1.23.0';
+const COMPONENTS_MIN_VERSION = '1.23.0';
 
 type Profile = 'minimal' | 'default' | 'full';
 
