@@ -1,6 +1,7 @@
 import { promises as fs } from 'fs';
 import * as path from 'path';
 import * as process from 'process';
+import * as os from 'os';
 
 import * as semver from 'semver';
 import * as io from '@actions/io';
@@ -73,8 +74,11 @@ export class RustUp {
             }
 
             case 'win32': {
+                const downloadPath = path.join(os.tmpdir(), "rustup-init.exe");
+                await fs.rm(downloadPath, { force: true });
                 const rustupExe = await tc.downloadTool(
                     'https://win.rustup.rs',
+                    downloadPath,
                 );
                 await exec.exec(rustupExe, args);
                 break;
